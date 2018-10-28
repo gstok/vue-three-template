@@ -104,17 +104,41 @@
                 requestAnimationFrame(this.animateThree);
                 this.render.render(this.scene, this.camera);
             },
+
+            //创建摄像机
+            createCamera () {
+                let camera;
+                camera = new THREE.PerspectiveCamera(45, this.threeSize.width / this.threeSize.height, 0.1, 1000);
+                camera.position.x = 0;
+                camera.position.y = 100;
+                camera.position.z = 100;
+                return camera;
+            },
+
+            createRender () {
+                let render;
+                render = new THREE.WebGLRenderer();
+                render.setClearColor(0xf0f0f0);
+                render.setSize(this.threeSize.width, this.threeSize.height);
+                render.gammaInput = true;
+                render.gammaOutput = true;
+                render.shadowMap.enabled = true;
+                return render;
+            },
+
+            initThree () {
+                this.threeWarpDom = this.$el.querySelector(".threeWarp");
+                this.$threeWarp = $(this.threeWarpDom);
+                this.threeSize.width = this.$threeWarp.width();
+                this.threeSize.height = this.$threeWarp.height();
+            },
         },
         created () {
 
         },
         mounted () {
-
-            this.threeWarpDom = this.$el.querySelector(".threeWarp");
-            this.$threeWarp = $(this.threeWarpDom);
-
-            this.threeSize.width = this.$threeWarp.width();
-            this.threeSize.height = this.$threeWarp.height();
+            //初始化Three作图区域
+            this.initThree();
 
             this.scene = new THREE.Scene();
 
@@ -123,19 +147,11 @@
             this.scene.add(axes);
 
             //创建摄像机
-            this.camera = new THREE.PerspectiveCamera(45, this.threeSize.width / this.threeSize.height, 0.1, 1000);
-            this.camera.position.x = 0;
-            this.camera.position.y = 100;
-            this.camera.position.z = 100;
+            this.camera = this.createCamera();
             this.camera.lookAt(this.scene.position);
 
             //创建WebGL渲染器
-            this.render = new THREE.WebGLRenderer();
-            this.render.setClearColor(0xf0f0f0);
-            this.render.setSize(this.threeSize.width, this.threeSize.height);
-            this.render.gammaInput = true;
-            this.render.gammaOutput = true;
-            this.render.shadowMap.enabled = true;
+            this.render = this.createRender();
 
             this.$threeWarp.append(this.render.domElement);
             this.render.render(this.scene, this.camera);
