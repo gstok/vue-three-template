@@ -6,6 +6,10 @@ Vue.use(Router);
 
 export default new Router({
     routes: [
-
+        {
+            path: "/",
+            name: "viewIndex",
+            component: () => import("@/views/index")
+        }
     ],
 });
