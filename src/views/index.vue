@@ -10,6 +10,7 @@
     }
 
     .threeWarp {
+        display: inline-block;
         width: 50%;
         height: 480px;
         border: solid 1px black;
@@ -75,6 +76,13 @@
         },
         methods: {
             //#region 页面事件方法
+                handleWindowResize (e) {
+                    let size = {
+                        width: this.$threeWarp.width(),
+                        height: this.$threeWarp.height(),
+                    };
+                    this.threeSize = size;
+                },
             //#endregion
 
             //#region 业务逻辑方法
@@ -92,14 +100,14 @@
             //#region 其他方法
             //#endregion
 
-            //更新Three尺寸方法
+            //更新THREE画布尺寸方法
             updateThreeSize () {
                 this.camera.aspect = this.threeSize.width / this.threeSize.height;
                 this.camera.updateProjectionMatrix();
                 this.render.setSize(this.threeSize.width, this.threeSize.height);          
             },
 
-            //Three动画驱动
+            //THREE动画驱动
             animateThree () {
                 requestAnimationFrame(this.animateThree);
                 this.render.render(this.scene, this.camera);
@@ -115,6 +123,7 @@
                 return camera;
             },
 
+            //创建渲染器
             createRender () {
                 let render;
                 render = new THREE.WebGLRenderer();
@@ -126,50 +135,50 @@
                 return render;
             },
 
+            //初始化轨道控制器
+            initOrbitControls () {
+                let controls = new OrbitControls(this.camera, this.render.domElement)
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.25;
+                controls.enableZoom = true;
+                controls.autoRotate = true;
+                return controls;
+            },
+
+            //初始化THREE
             initThree () {
                 this.threeWarpDom = this.$el.querySelector(".threeWarp");
                 this.$threeWarp = $(this.threeWarpDom);
                 this.threeSize.width = this.$threeWarp.width();
                 this.threeSize.height = this.$threeWarp.height();
+
+                //创建场景
+                this.scene = new THREE.Scene();
+                //创建摄像机
+                this.camera = this.createCamera();
+                //创建WebGL渲染器
+                this.render = this.createRender();
+                //初始化轨道控制器
+                this.initOrbitControls();
+
+                this.camera.lookAt(this.scene.position);
+
+                //添加坐标系
+                let axes = new THREE.AxesHelper(100);
+                this.scene.add(axes);
+                
+                this.$threeWarp.append(this.render.domElement);
+                this.render.render(this.scene, this.camera);
+                this.animateThree();
+
+                $(window).resize(this.handleWindowResize);
             },
         },
         created () {
 
         },
         mounted () {
-            //初始化Three作图区域
             this.initThree();
-
-            this.scene = new THREE.Scene();
-
-            //添加坐标系
-            let axes = new THREE.AxesHelper(100);
-            this.scene.add(axes);
-
-            //创建摄像机
-            this.camera = this.createCamera();
-            this.camera.lookAt(this.scene.position);
-
-            //创建WebGL渲染器
-            this.render = this.createRender();
-
-            this.$threeWarp.append(this.render.domElement);
-            this.render.render(this.scene, this.camera);
-
-            $(window).resize(e => {
-                let size = {
-                    width: this.$threeWarp.width(),
-                    height: this.$threeWarp.height(),
-                };
-                this.threeSize = size;
-            });
-            this.animateThree();
-
-            let controls = new OrbitControls(this.camera, this.render.domElement)
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            controls.enableZoom = true;
-            controls.autoRotate = true;
         },
         components: {
 
