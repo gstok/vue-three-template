@@ -6,8 +6,8 @@
     }
 
     .test {
-        width: 100px;
-        height: 100px;
+        width: 640px;
+        height: 480px;
     }
 </style>
 
