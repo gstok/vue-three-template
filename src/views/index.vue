@@ -95,9 +95,9 @@
                 createCamera () {
                     let camera;
                     camera = new THREE.PerspectiveCamera(45, this.threeSize.width / this.threeSize.height, 0.1, 1000);
-                    camera.position.x = 0;
-                    camera.position.y = 100;
-                    camera.position.z = 100;
+                    camera.position.x = 200;
+                    camera.position.y = 200;
+                    camera.position.z = 200;
                     return camera;
                 },
                 //创建渲染器
@@ -186,10 +186,56 @@
             let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
             this.scene.add(directionalLight);
 
-            let geometry = new THREE.BoxGeometry(5, 5, 5);
-            let material = new THREE.MeshPhongMaterial({ color: 0x2BAAFF });
-            let cube = new THREE.Mesh(geometry, material);
-            this.scene.add(cube);
+            let planeGeometry = new THREE.PlaneGeometry(120, 120, 32);
+            let planeMaterial = new THREE.MeshBasicMaterial({
+                color: "pink",
+                side: THREE.DoubleSide
+            });
+            let plane = new THREE.Mesh( planeGeometry, planeMaterial );
+            plane.rotateX(Math.PI / 2);
+            plane.position.set(60, 0, 60);
+            this.scene.add(plane);
+
+            let box1Geom = new THREE.BoxGeometry(120, 10, 10);
+            let box1Mate = new THREE.MeshPhongMaterial({ color: 0x2BAAFF });
+            let box1 = new THREE.Mesh(box1Geom, box1Mate);
+            box1.position.set(60, 5, 5);
+            this.scene.add(box1);
+
+            let box2Geom = new THREE.BoxGeometry(120, 10, 10);
+            let box2Mate = new THREE.MeshPhongMaterial({ color: 0x2BAAFF });
+            let box2 = new THREE.Mesh(box2Geom, box2Mate);
+            box2.position.set(60, 5, 115);
+            this.scene.add(box2);
+
+            let box3Geom = new THREE.BoxGeometry(10, 10, 100);
+            let box3Mate = new THREE.MeshPhongMaterial({ color: 0x2c35FF });
+            let box3 = new THREE.Mesh(box3Geom, box3Mate);
+            box3.position.set(5, 5, 60);
+            this.scene.add(box3);
+
+            let box4Geom = new THREE.BoxGeometry(10, 10, 100);
+            let box4Mate = new THREE.MeshPhongMaterial({ color: 0x2c35FF });
+            let box4 = new THREE.Mesh(box4Geom, box4Mate);
+            box4.position.set(115, 5, 60);
+            this.scene.add(box4);
+
+            for (let y = 0; y < 10; ++y) {
+                for (let x = 0; x < 10; ++x) {
+                    if (Math.random() * 2 < 1) {
+                        let colorList = ["#CDB7B5", "#9BCD9B", "#FF6A6A", "#333333", "#912CEE", "#878787"];
+                        let boxGeom = new THREE.BoxGeometry(10, 10, 10);
+                        let num = Math.floor((Math.random() * 6));
+                        let boxMate = new THREE.MeshPhongMaterial({ color: colorList[num] });
+                        let box = new THREE.Mesh(boxGeom, boxMate);
+                        box.position.set(10 * x + 15, 5, 10 * y + 15);
+                        this.scene.add(box);
+                    }
+                    else {
+                        console.log(2);
+                    }     
+                }
+            }
         },
         components: {
 
