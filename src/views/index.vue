@@ -103,7 +103,10 @@
                 //创建渲染器
                 createRender () {
                     let render;
-                    render = new THREE.WebGLRenderer();
+                    render = new THREE.WebGLRenderer({
+                        antialias: true,
+                        alpha: true,
+                    });
                     render.setClearColor(0xf0f0f0);
                     render.setSize(this.threeSize.width, this.threeSize.height);
                     render.gammaInput = true;
@@ -174,17 +177,17 @@
         mounted () {
             this.initThree();
 
-            let light1 = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+            let light1 = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
             this.scene.add(light1);
 
-            let light2 = new THREE.AmbientLight( 0x404040 ); // soft white light
-            this.scene.add(light2);
+            // let light2 = new THREE.AmbientLight( 0x404040 );
+            // this.scene.add(light2);
 
-            let directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-            this.scene.add( directionalLight );
+            let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            this.scene.add(directionalLight);
 
             let geometry = new THREE.BoxGeometry(5, 5, 5);
-            let material = new THREE.MeshLambertMaterial({color: 0x00ff00});
+            let material = new THREE.MeshPhongMaterial({ color: 0x2BAAFF });
             let cube = new THREE.Mesh(geometry, material);
             this.scene.add(cube);
         },
