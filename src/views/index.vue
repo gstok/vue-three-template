@@ -2,12 +2,8 @@
 <!--局部样式-->
 <style scoped>
     .viewIndex {
-
-    }
-
-    .test {
-        width: 640px;
-        height: 480px;
+        width: 100%;
+        height: 100%;
     }
 </style>
 
@@ -18,9 +14,7 @@
 
 <template>
     <div class="viewIndex">
-        <div class="test">
-            <threeCom />
-        </div>
+        <threeCom />
     </div>
 </template>
 
