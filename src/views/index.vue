@@ -222,7 +222,7 @@
 
             for (let y = 0; y < 10; ++y) {
                 for (let x = 0; x < 10; ++x) {
-                    if (Math.random() * 2 < 1) {
+                    if (Math.random() * 7 < 1) {
                         let colorList = ["#CDB7B5", "#9BCD9B", "#FF6A6A", "#333333", "#912CEE", "#878787"];
                         let boxGeom = new THREE.BoxGeometry(10, 10, 10);
                         let num = Math.floor((Math.random() * 6));
