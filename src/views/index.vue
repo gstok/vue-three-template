@@ -29,6 +29,10 @@
     import * as THREE from "three";
     const OrbitControls = require("three-orbit-controls")(THREE);
 
+    import OBJFunc from "../OBJLoader.js";
+    OBJFunc(THREE);
+
+
     export default {
         name: "viewIndex",
         props: {
@@ -242,6 +246,17 @@
                     }     
                 }
             }
+
+            console.log(THREE);
+
+            var loader = new THREE.OBJLoader();
+            // load a resource
+            loader.load(
+                "/models/Buddha.obj",
+                object => {
+                    this.scene.add(object);
+                },
+            );
         },
         components: {
 
