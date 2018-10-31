@@ -100,7 +100,7 @@
                     let camera;
                     camera = new THREE.PerspectiveCamera(45, this.threeSize.width / this.threeSize.height, 0.1, 1000);
                     camera.position.x = 11;
-                    camera.position.y = 1;
+                    camera.position.y = 11;
                     camera.position.z = 11;
                     return camera;
                 },
@@ -143,7 +143,7 @@
                     //初始化轨道控制器
                     this.orbitControls = this.initOrbitControls();
 
-                    this.camera.lookAt(new THREE.Vector3(11, 1, 12));
+                    this.camera.lookAt(new THREE.Vector3(11, 11.1, 12));
 
                     //添加坐标系
                     let axes = new THREE.AxesHelper(100);
@@ -185,7 +185,7 @@
                     });
                     let plane = new THREE.Mesh(planeGeometry, planeMaterial);
                     plane.rotateX(Math.PI / 2);
-                    plane.position.set(11, 0, 11);
+                    plane.position.set(11, 10, 11);
                     return plane;
                 },
 
@@ -200,7 +200,7 @@
                 },
 
                 posTran (x, y) {
-                    return new THREE.Vector3(0.5 + x, 0.5, 0.5 + y);
+                    return new THREE.Vector3(0.5 + x, 10.5, 0.5 + y);
                 },
 
                 buildWall () {
@@ -218,21 +218,31 @@
 
                 createSkyBox () {
                     let geom = new THREE.BoxGeometry(60, 60, 60);
-                    var loader = new THREE.CubeTextureLoader();
+                    let loader = new THREE.CubeTextureLoader();
                     loader.setPath("/texture/");
 
-                    var textureCube = loader.load([
-                        '1.png', '2.png',
-                        '1.png', '1.png',
-                        '4.png', '1.png'
+                    let textureCube = loader.load([
+                        'posx.jpg', 'negx.jpg',
+                        'posy.jpg', 'negy.jpg',
+                        'posz.jpg', 'negz.jpg',
                     ]);
 
-                    this.scene.background = textureCube;
+                    let shader = THREE.ShaderLib["cube"];
+                    shader.uniforms["tCube"].value = textureCube;
+                    let material = new THREE.ShaderMaterial({
+                        fragmentShader: shader.fragmentShader,
+                        vertexShader: shader.vertexShader,
+                        uniforms: shader.uniforms,
+                        depthWrite: false,
+                        side: THREE.BackSide,
+                    });
+
+                    // this.scene.background = textureCube;
 
                     // var material = new THREE.MeshBasicMaterial( {
                     //     color: 0xffffff,
                     //     envMap: textureCube,
-                    //     side: THREE.DoubleSide,
+                    //     side: THREE.BackSide,
                     // } );
 
 
@@ -240,9 +250,9 @@
                     // // let mate = new THREE.MeshPhongMaterial({
                     // //     map: texture,
                     // // });
-                    // let box = new THREE.Mesh(geom, material);
-                    // box.position.set(11, 0, 11);
-                    return null;
+                    let box = new THREE.Mesh(geom, material);
+                    box.position.set(11, 0, 11);
+                    return box;
                 },
             //#endregion
         },
@@ -272,7 +282,7 @@
             this.buildWall();
 
             let box = this.createSkyBox();
-            // this.scene.add(box);
+            this.scene.add(box);
 
             console.log(THREE);
 
