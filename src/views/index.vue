@@ -220,25 +220,18 @@
             box4.position.set(115, 5, 60);
             this.scene.add(box4);
 
-            for (let y = 0; y < 1; ++y) {
-                for (let x = 0; x < 1; ++x) {
-                    if (Math.random() * 2 < 5) {
+            for (let y = 0; y < 10; ++y) {
+                for (let x = 0; x < 10; ++x) {
+                    if (Math.random() * 2 < 1) {
                         let colorList = ["#CDB7B5", "#9BCD9B", "#FF6A6A", "#333333", "#912CEE", "#878787"];
                         let boxGeom = new THREE.BoxGeometry(10, 10, 10);
                         let num = Math.floor((Math.random() * 6));
 
-                        var loader = new THREE.CubeTextureLoader();
-                        loader.setPath("/texture/");
-
-                        var textureCube = loader.load([
-                            "1.jpeg", "1.jpeg",
-                            "1.jpeg", "1.jpeg",
-                            "1.jpeg", "1.jpeg",
-                        ]);
+                        var texture = new THREE.TextureLoader().load("/texture/box.png");
 
                         let boxMate = new THREE.MeshBasicMaterial({
                             color: 0xffffff,
-                            envMap: textureCube,
+                            map: texture,
                         });
                         let box = new THREE.Mesh(boxGeom, boxMate);
                         box.position.set(10 * x + 15, 5, 10 * y + 15);
