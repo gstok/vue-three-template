@@ -99,9 +99,9 @@
                 createCamera () {
                     let camera;
                     camera = new THREE.PerspectiveCamera(45, this.threeSize.width / this.threeSize.height, 0.1, 1000);
-                    camera.position.x = 5;
-                    camera.position.y = 5;
-                    camera.position.z = 5;
+                    camera.position.x = 11;
+                    camera.position.y = 1;
+                    camera.position.z = 11;
                     return camera;
                 },
                 //创建渲染器
@@ -143,7 +143,7 @@
                     //初始化轨道控制器
                     this.orbitControls = this.initOrbitControls();
 
-                    this.camera.lookAt(this.scene.position);
+                    this.camera.lookAt(new THREE.Vector3(11, 1, 12));
 
                     //添加坐标系
                     let axes = new THREE.AxesHelper(100);
@@ -217,29 +217,32 @@
                 },
 
                 createSkyBox () {
-                    let geom = new THREE.BoxGeometry(30, 30, 30);
+                    let geom = new THREE.BoxGeometry(60, 60, 60);
                     var loader = new THREE.CubeTextureLoader();
                     loader.setPath("/texture/");
 
                     var textureCube = loader.load([
                         '1.png', '2.png',
-                        '3.png', '4.png',
-                        '5.png', '6.png'
+                        '1.png', '1.png',
+                        '4.png', '1.png'
                     ]);
 
-                    var material = new THREE.MeshBasicMaterial( {
-                        color: 0xffffff,
-                        envMap: textureCube,
-                        side: THREE.DoubleSide,
-                    } );
+                    this.scene.background = textureCube;
 
-                    let texture = new THREE.TextureLoader().load("/texture/jinshu.jpeg");
-                    // let mate = new THREE.MeshPhongMaterial({
-                    //     map: texture,
-                    // });
-                    let box = new THREE.Mesh(geom, material);
-                    box.position.set(11, 0, 11);
-                    return box;
+                    // var material = new THREE.MeshBasicMaterial( {
+                    //     color: 0xffffff,
+                    //     envMap: textureCube,
+                    //     side: THREE.DoubleSide,
+                    // } );
+
+
+                    // let texture = new THREE.TextureLoader().load("/texture/jinshu.jpeg");
+                    // // let mate = new THREE.MeshPhongMaterial({
+                    // //     map: texture,
+                    // // });
+                    // let box = new THREE.Mesh(geom, material);
+                    // box.position.set(11, 0, 11);
+                    return null;
                 },
             //#endregion
         },
@@ -269,7 +272,7 @@
             this.buildWall();
 
             let box = this.createSkyBox();
-            this.scene.add(box);
+            // this.scene.add(box);
 
             console.log(THREE);
 
